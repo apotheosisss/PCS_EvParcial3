@@ -1,0 +1,38 @@
+# NHANES August 2021-August 2023 Raw Datasets (XPT / SAS Transport format)
+# Cycle L — primer ciclo post-COVID con nuevo diseño muestral
+# Fuente: https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/
+
+nhanes_diq_raw:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DIQ_L.xpt
+  load_args:
+    format: sas
+    encoding: iso-8859-1
+
+nhanes_demo_raw:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DEMO_L.xpt
+  load_args:
+    format: sas
+    encoding: iso-8859-1
+
+nhanes_bmx_raw:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/BMX_L.xpt
+  load_args:
+    format: sas
+    encoding: iso-8859-1
+
+nhanes_ghb_raw:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/GHB_L.xpt
+  load_args:
+    format: sas
+    encoding: iso-8859-1
+
+nhanes_glu_raw:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/GLU_L.xpt
+  load_args:
+    format: sas
+    encoding: iso-8859-1
