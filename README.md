@@ -45,8 +45,11 @@ El repositorio fue desarrollado para la **Evaluación Parcial N°3** de la asign
 | Descarga de datos | Disponible | Script `scripts/download_nhanes.py` para obtener archivos `.xpt`. |
 | Catálogo de datos | Disponible | Datasets NHANES registrados en `conf/base/catalog.yml`. |
 | Parámetros | Disponible | URL base, archivos esperados, target y llave de unión en `parameters.yml`. |
-| Pipelines | Pendiente de implementación | Estructura preparada para sumar nodos de ingesta, limpieza, features y modelos. |
-| Modelamiento | Roadmap | Clasificación de diabetes/riesgo metabólico con métricas reproducibles. |
+| Pipelines | Modeling y reporting implementados | Nodos de modelado y reportes en `src/nhanes_diabetes/pipelines/`. Ingesta en feature/a, limpieza/features en feature/b. |
+| Modelamiento | Disponible | LogisticRegression, RandomForest y GradientBoosting; selección por ROC-AUC. |
+| Dashboard | Disponible | Streamlit con vistas ejecutiva, técnica y operativa (`dashboards/streamlit_app.py`). |
+| API | Disponible | FastAPI con `/health`, `/metrics`, `/features`, `/model-info`, `/predict` (`api/main.py`). |
+| Docker | Disponible | `docker/docker-compose.yml` con servicios etl, api, dashboard y db. |
 
 ## Fuentes De Datos
 
@@ -175,6 +178,32 @@ Ejecutar el paquete como comando:
 nhanes-diabetes
 ```
 
+### Modelado, dashboard y API (feature/c)
+
+```bash
+# 1) Dataset de entrada (usa el real de feature/b; o genera una muestra)
+python scripts/make_sample_model_input.py
+
+# 2) Entrenar modelos y generar reportes
+kedro run
+
+# 3) API de predicción (http://localhost:8000/docs)
+uvicorn api.main:app --reload
+
+# 4) Dashboard (http://localhost:8501)
+streamlit run dashboards/streamlit_app.py
+```
+
+Despliegue completo con Docker:
+
+```bash
+cp .env.example .env
+docker compose -f docker/docker-compose.yml up --build
+```
+
+> El modelo es una aproximación analítica/educativa basada en NHANES. **No reemplaza un diagnóstico clínico.**
+> Contrato de datos entre feature/b y feature/c: ver [`docs/CONTRATO_FEATURE_B.md`](docs/CONTRATO_FEATURE_B.md).
+
 ## Configuración Kedro
 
 Los datasets crudos están definidos en:
@@ -229,15 +258,16 @@ El repositorio usa una estrategia colaborativa simple:
 | --- | --- |
 | `main` | Versión estable del proyecto. |
 | `develop` | Integración de avances antes de liberar a `main`. |
-| `feature/a` | Trabajo de pipelines, datos, limpieza, features y modelos. |
-| `feature/b` | Trabajo de documentación, visualización, API y despliegue. |
+| `feature/a` | Ingesta, estructura Kedro y fuentes de datos. |
+| `feature/b` | Limpieza, transformación y dataset modelable. |
+| `feature/c` | Modelamiento, dashboard, API, Docker y documentación final. |
 
 Flujo esperado:
 
 ```text
 feature/a ─┐
-           ├──> develop ───> main
-feature/b ─┘
+feature/b ─┼──> develop ───> main
+feature/c ─┘
 ```
 
 Convención sugerida de commits:
@@ -271,11 +301,11 @@ El proyecto concentra rutas y parámetros en configuración Kedro para que el fl
 
 ## Equipo
 
-| Rol | Responsabilidad |
+| Rama | Responsabilidad |
 | --- | --- |
-| Data Engineering | Descarga, catálogo, ingesta y limpieza. |
-| Data Science | Features, modelos, métricas y validación. |
-| Producto / Documentación | README, evidencias, presentación y guía de uso. |
+| `feature/a` | Arquitectura Kedro, catálogo, ingesta NHANES, fuentes externas y documentación de datos. |
+| `feature/b` | Limpieza, unión por `SEQN`, tratamiento de nulos, creación del target y feature engineering. |
+| `feature/c` | Modelos, métricas, dashboard, API, Docker, documentación final y evidencias Git. |
 
 ## Licencia Y Uso
 
