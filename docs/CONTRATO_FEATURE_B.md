@@ -30,7 +30,7 @@ nombre ni la ruta** sin avisar, porque rompe el pipeline de modelado, la API y e
 
 | Columna | Tipo | Reglas |
 |---------|------|--------|
-| `diabetes_target` | int (0/1) | **Sin nulos.** Construida según la regla del Notion (ver §3). Ambas clases presentes. |
+| `diabetes_target` | int (0/1) | **Sin nulos.** Construida según la regla del Notion (ver §3). Ambas clases presentes con **≥2 filas por clase** (el split es estratificado y falla si una clase tiene <2). |
 
 ### 2.2. Identificador (se conserva pero NO se usa como feature)
 
@@ -118,7 +118,7 @@ Si puedes, entrega además:
 
 - [ ] `data/05_model_input/model_input.csv` existe y abre con `pandas.read_csv`.
 - [ ] `SEQN` único, sin filas duplicadas.
-- [ ] `diabetes_target` presente, sin nulos, con ambas clases (0 y 1).
+- [ ] `diabetes_target` presente, sin nulos, con ambas clases (0 y 1) y ≥2 filas por clase.
 - [ ] Cero nulos en columnas de feature.
 - [ ] Todas las features son numéricas (sin `object`/strings).
 - [ ] Códigos 7/9/77/99 ya tratados (no aparecen como valores válidos).
