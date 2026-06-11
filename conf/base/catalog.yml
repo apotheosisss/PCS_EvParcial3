@@ -36,3 +36,53 @@ nhanes_glu_raw:
   load_args:
     format: sas
     encoding: iso-8859-1
+
+
+# ============================================================
+# Feature C — model input (lo entrega feature/b, ver docs/CONTRATO_FEATURE_B.md)
+# ============================================================
+model_input:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/model_input.csv
+
+# ----- Modeling outputs -----
+model_bundle:
+  type: pickle.PickleDataset
+  filepath: data/06_models/model.pkl
+
+model_metrics:
+  type: json.JSONDataset
+  filepath: data/08_reporting/metrics.json
+
+model_comparison:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/model_comparison.csv
+
+model_predictions:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/predictions.csv
+
+confusion_matrix_data:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/confusion_matrix.csv
+
+feature_importance:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/feature_importance.csv
+
+# in-memory (se pasan entre nodos, no se persisten)
+data_split:
+  type: MemoryDataset
+trained_models:
+  type: MemoryDataset
+evaluation:
+  type: MemoryDataset
+
+# ----- Reporting outputs -----
+confusion_matrix_plot:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/confusion_matrix.png
+
+feature_importance_plot:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/feature_importance.png

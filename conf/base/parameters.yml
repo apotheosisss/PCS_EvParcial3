@@ -11,3 +11,11 @@ nhanes_files:
 # Key variables
 target_column: "DIQ010"       # 1=Yes diabetes, 2=No, 3=Borderline
 merge_key: "SEQN"             # Respondent sequence number
+
+
+# ============================================================
+# Feature C — modeling parameters
+# ============================================================
+modeling:
+  test_size: 0.2
+  random_state: 42
