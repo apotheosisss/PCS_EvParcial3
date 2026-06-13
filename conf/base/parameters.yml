@@ -1,0 +1,21 @@
+# NHANES data source
+nhanes_base_url: "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles"
+
+nhanes_files:
+  - DIQ_L.xpt    # Diabetes questionnaire (target variable DIQ010)
+  - DEMO_L.xpt   # Demographics (age, sex, race, income)
+  - BMX_L.xpt    # Body measures (BMI, waist circumference)
+  - GHB_L.xpt    # Glycohemoglobin HbA1c (LBXGH)
+  - GLU_L.xpt    # Plasma fasting glucose (LBXGLU)
+
+# Key variables
+target_column: "DIQ010"       # 1=Yes diabetes, 2=No, 3=Borderline
+merge_key: "SEQN"             # Respondent sequence number
+
+
+# ============================================================
+# Feature C — modeling parameters
+# ============================================================
+modeling:
+  test_size: 0.2
+  random_state: 42
