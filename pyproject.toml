@@ -27,6 +27,3 @@ source_dir = "src"
 [tool.setuptools.packages.find]
 where = ["src"]
 namespaces = false
-
-[tool.pytest.ini_options]
-pythonpath = ["src"]
