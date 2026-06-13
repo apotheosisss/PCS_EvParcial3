@@ -3,57 +3,65 @@
 nhanes_diq_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/DIQ_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_demo_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/DEMO_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_bmx_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/BMX_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_ghb_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/GHB_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_glu_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/GLU_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_paq_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/PAQ_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_slq_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/SLQ_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 nhanes_bpxo_raw:
   type: pandas.GenericDataset
   filepath: data/01_raw/BPXO_L.xpt
+  file_format: sas
   load_args:
-    format: sas
+    format: xport
     encoding: iso-8859-1
 
 diabetes_thresholds:
