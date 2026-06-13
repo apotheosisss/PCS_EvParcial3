@@ -2,12 +2,49 @@
 nhanes_base_url: "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles"
 
 nhanes_files:
-  - DIQ_L.xpt    # Diabetes questionnaire (target variable DIQ010)
-  - DEMO_L.xpt   # Demographics (age, sex, race, income)
-  - BMX_L.xpt    # Body measures (BMI, waist circumference)
-  - GHB_L.xpt    # Glycohemoglobin HbA1c (LBXGH)
-  - GLU_L.xpt    # Plasma fasting glucose (LBXGLU)
+  - DIQ_L.xpt    # Diabetes questionnaire
+  - DEMO_L.xpt   # Demographics
+  - BMX_L.xpt    # Body measures
+  - GHB_L.xpt    # Glycohemoglobin HbA1c
+  - GLU_L.xpt    # Plasma fasting glucose
+  - PAQ_L.xpt    # Physical activity questionnaire
+  - SLQ_L.xpt    # Sleep questionnaire
+  - BPXO_L.xpt   # Blood pressure examination
 
 # Key variables
-target_column: "DIQ010"       # 1=Yes diabetes, 2=No, 3=Borderline
-merge_key: "SEQN"             # Respondent sequence number
+target_column: "diabetes_target"
+merge_key: "SEQN"
+
+ingestion:
+  audit_db_path: "data/diabetes_nhanes.db"
+  required_columns:
+    nhanes_demo_raw:
+      - SEQN
+      - RIDAGEYR
+      - RIAGENDR
+      - RIDRETH3
+    nhanes_diq_raw:
+      - SEQN
+      - DIQ010
+    nhanes_bmx_raw:
+      - SEQN
+      - BMXBMI
+      - BMXWT
+      - BMXHT
+    nhanes_ghb_raw:
+      - SEQN
+      - LBXGH
+    nhanes_glu_raw:
+      - SEQN
+      - LBXGLU
+    nhanes_paq_raw:
+      - SEQN
+    nhanes_slq_raw:
+      - SEQN
+    nhanes_bpxo_raw:
+      - SEQN
+
+# Feature C modeling parameters
+modeling:
+  test_size: 0.2
+  random_state: 42
