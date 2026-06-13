@@ -5,7 +5,6 @@ data/**
 
 # Logs
 logs/
-.viz/
 
 # Python
 __pycache__/

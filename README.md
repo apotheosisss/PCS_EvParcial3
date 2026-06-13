@@ -23,79 +23,42 @@
 
 ## About
 
-**NHANES Diabetes Risk** organiza un flujo reproducible para integrar, limpiar, transformar, modelar y visualizar datos de salud poblacional del ciclo **NHANES August 2021-August 2023**. El foco del proyecto es construir una base técnica clara para análisis de riesgo de diabetes, integrando datos demográficos, cuestionarios, mediciones corporales, resultados de laboratorio y fuentes auxiliares propias.
+**NHANES Diabetes Risk** organiza un flujo reproducible para descargar, catalogar y preparar datos de salud poblacional del ciclo **NHANES August 2021-August 2023**. El foco del proyecto es construir una base técnica clara para análisis de riesgo de diabetes, integrando cuestionarios, datos demográficos, mediciones corporales y resultados de laboratorio.
 
 El repositorio fue desarrollado para la **Evaluación Parcial N°3** de la asignatura **Programación para la Ciencia de Datos - SCY1101**.
 
-> Este proyecto tiene fines académicos y analíticos. No es una herramienta diagnóstica ni reemplaza evaluación médica profesional.
+> Este proyecto tiene fines académicos. No es una herramienta diagnóstica ni reemplaza evaluación médica profesional.
 
-## Objetivo Del Proyecto
+## Objetivos
 
-Desarrollar un pipeline profesional con **Kedro** para analizar factores asociados a diabetes y entrenar modelos predictivos usando datos públicos de NHANES.
-
-Objetivo analítico:
-
-```text
-Predecir o clasificar riesgo/estado de diabetes en participantes de NHANES usando variables demográficas, antropométricas, cuestionarios de salud y biomarcadores clínicos.
-```
-
-Variable objetivo sugerida:
-
-```text
-diabetes_target
-0 = sin evidencia de diabetes
-1 = diabetes reportada o alto riesgo metabólico según variables disponibles
-```
-
-La variable `diabetes_target` se construye como una aproximación educativa/analítica usando:
-
-```text
-DIQ010  -> diagnóstico médico de diabetes reportado.
-LBXGH   -> hemoglobina glicosilada / A1C.
-LBXGLU  -> glucosa plasmática en ayunas.
-```
-
-Reglas sugeridas:
-
-```text
-diabetes_target = 1 si:
-- DIQ010 == 1
-- o LBXGH >= 6.5
-- o LBXGLU >= 126
-
-diabetes_target = 0 si no cumple criterios anteriores.
-```
-
-> Los umbrales de A1C y glucosa se usan como referencia educativa. Esta clasificación no debe interpretarse como diagnóstico clínico real.
+- Descargar datasets oficiales de NHANES relacionados con diabetes y riesgo metabólico.
+- Organizar las fuentes en un proyecto Kedro reproducible.
+- Documentar variables clave para análisis clínico y poblacional.
+- Preparar una base extensible para pipelines de limpieza, features y modelamiento.
+- Mantener una estrategia de trabajo colaborativo con ramas `main`, `develop` y `feature/*`.
 
 ## Estado Del Proyecto
 
 | Área | Estado | Detalle |
 | --- | --- | --- |
-| Estructura Kedro | Disponible | Proyecto configurado con `pyproject.toml`, `conf/` y paquete en `src/`. |
+| Estructura Kedro | En base inicial | Proyecto configurado con `pyproject.toml`, `conf/` y paquete en `src/`. |
 | Descarga de datos | Disponible | Script `scripts/download_nhanes.py` para obtener archivos `.xpt`. |
 | Catálogo de datos | Disponible | Datasets NHANES registrados en `conf/base/catalog.yml`. |
 | Parámetros | Disponible | URL base, archivos esperados, target y llave de unión en `parameters.yml`. |
-| Ingesta | Rama `feature/a` | Carga de fuentes NHANES, CSV/Excel propio y auditoría. |
-| Limpieza/features | Rama `feature/b` | Unión por `SEQN`, limpieza, target y dataset modelable. |
-| Modelamiento/producto | Rama `feature/c` | Modelos, métricas, dashboard, API, Docker y documentación final. |
+| Pipelines | Pendiente de implementación | Estructura preparada para sumar nodos de ingesta, limpieza, features y modelos. |
+| Modelamiento | Roadmap | Clasificación de diabetes/riesgo metabólico con métricas reproducibles. |
 
 ## Fuentes De Datos
 
 Los datos provienen de **NHANES - National Health and Nutrition Examination Survey**, programa público del National Center for Health Statistics.
 
-### Fuente 1: NHANES Oficial En Formato XPT
-
 | Archivo | Categoría | Uso principal |
 | --- | --- | --- |
-| `DEMO_L.xpt` | Demographics | Edad, sexo, raza/etnia, ingresos y pesos muestrales. |
-| `DIQ_L.xpt` | Questionnaire | Diabetes reportada, variable `DIQ010`. |
-| `BMX_L.xpt` | Examination | BMI, peso, altura y medidas corporales. |
+| `DIQ_L.xpt` | Questionnaire | Diabetes reportada, variable objetivo `DIQ010`. |
+| `DEMO_L.xpt` | Demographics | Edad, sexo, raza/etnia e indicadores socioeconómicos. |
+| `BMX_L.xpt` | Examination | BMI, peso, altura y circunferencia de cintura. |
 | `GHB_L.xpt` | Laboratory | Hemoglobina glicosilada, variable `LBXGH`. |
 | `GLU_L.xpt` | Laboratory | Glucosa plasmática en ayunas, variable `LBXGLU`. |
-| `PAQ_L.xpt` | Questionnaire | Actividad física. |
-| `SLQ_L.xpt` | Questionnaire | Sueño. |
-| `BPXO_L.xpt` | Examination | Presión arterial. |
 
 Llave de integración:
 
@@ -103,52 +66,22 @@ Llave de integración:
 SEQN
 ```
 
-### Fuente 2: Archivos Propios CSV/Excel
-
-Archivos sugeridos:
+Variable objetivo inicial:
 
 ```text
-data/01_raw/diccionario_variables.xlsx
-data/01_raw/umbrales_diabetes.csv
+DIQ010
 ```
-
-Ejemplo de `umbrales_diabetes.csv`:
-
-```csv
-variable,criterio,valor,descripcion
-LBXGH,>=,6.5,A1C compatible con diabetes
-LBXGLU,>=,126,Glucosa ayunas compatible con diabetes
-BMXBMI,>=,30,Obesidad
-RIDAGEYR,>=,45,Edad de mayor riesgo
-```
-
-### Fuente 3: Base SQLite/PostgreSQL
-
-Base sugerida:
-
-```text
-data/diabetes_nhanes.db
-```
-
-Usos esperados:
-
-- Auditoría del ETL.
-- Fecha de ejecución.
-- Cantidad de filas procesadas.
-- Nulos antes y después de limpieza.
-- Métricas del modelo.
-- Predicciones generadas.
 
 ## Arquitectura
 
 ```text
-NHANES Public Data + CSV/Excel propio + SQLite/PostgreSQL
+NHANES Public Data
         |
         v
 scripts/download_nhanes.py
         |
         v
-data/01_raw/
+data/01_raw/*.xpt
         |
         v
 Kedro Data Catalog
@@ -163,63 +96,41 @@ Pipelines
         |
         v
 Artifacts
-  - data/02_intermediate/
-  - data/03_primary/
-  - data/04_feature/
-  - data/05_model_input/
-  - data/06_models/
-  - data/07_model_output/
-  - data/08_reporting/
-        |
-        v
-Dashboard Streamlit + API FastAPI + Docker
+  - datasets procesados
+  - métricas
+  - modelos
+  - reportes
 ```
 
 ## Estructura Del Repositorio
 
 ```text
 .
-|-- assets/
-|   |-- banner.png
-|   `-- logo.png
-|-- conf/
-|   |-- base/
-|   |   |-- catalog.yml
-|   |   |-- logging.yml
-|   |   `-- parameters.yml
-|   `-- local/
-|-- data/
-|   |-- 01_raw/
-|   |-- 02_intermediate/
-|   |-- 03_primary/
-|   |-- 04_feature/
-|   |-- 05_model_input/
-|   |-- 06_models/
-|   |-- 07_model_output/
-|   `-- 08_reporting/
-|-- dashboards/
-|   `-- streamlit_app.py
-|-- api/
-|   `-- main.py
-|-- docker/
-|   |-- Dockerfile
-|   |-- Dockerfile.dashboard
-|   `-- docker-compose.yml
-|-- docs/
-|-- notebooks/
-|-- scripts/
-|   `-- download_nhanes.py
-|-- src/
-|   `-- nhanes_diabetes/
-|       |-- pipeline_registry.py
-|       |-- settings.py
-|       `-- pipelines/
-|-- tests/
-|-- .env.example
-|-- .gitignore
-|-- pyproject.toml
-|-- README.md
-`-- requirements.txt
+├── assets/
+│   ├── banner.png
+│   └── logo.png
+├── conf/
+│   ├── base/
+│   │   ├── catalog.yml
+│   │   ├── logging.yml
+│   │   └── parameters.yml
+│   └── local/
+│       └── .gitkeep
+├── data/
+├── notebooks/
+├── scripts/
+│   └── download_nhanes.py
+├── src/
+│   └── nhanes_diabetes/
+│       ├── __init__.py
+│       ├── __main__.py
+│       ├── pipeline_registry.py
+│       ├── settings.py
+│       └── pipelines/
+├── .gitignore
+├── pyproject.toml
+├── README.md
+└── requirements.txt
 ```
 
 ## Instalación
@@ -264,31 +175,6 @@ Ejecutar el paquete como comando:
 nhanes-diabetes
 ```
 
-Generar dataset de ejemplo para modelamiento:
-
-```bash
-python scripts/make_sample_model_input.py
-```
-
-Levantar API de predicción:
-
-```bash
-uvicorn api.main:app --reload
-```
-
-Levantar dashboard:
-
-```bash
-streamlit run dashboards/streamlit_app.py
-```
-
-Despliegue completo con Docker:
-
-```bash
-cp .env.example .env
-docker compose -f docker/docker-compose.yml up --build
-```
-
 ## Configuración Kedro
 
 Los datasets crudos están definidos en:
@@ -307,7 +193,7 @@ Parámetros destacados:
 
 ```yaml
 nhanes_base_url: "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles"
-target_column: "diabetes_target"
+target_column: "DIQ010"
 merge_key: "SEQN"
 ```
 
@@ -316,396 +202,52 @@ merge_key: "SEQN"
 | Variable | Descripción |
 | --- | --- |
 | `SEQN` | Identificador único de participante. |
+| `DIQ010` | Diagnóstico reportado de diabetes. |
 | `RIDAGEYR` | Edad. |
 | `RIAGENDR` | Sexo. |
 | `RIDRETH3` | Grupo racial/étnico. |
-| `INDFMPIR` | Ratio ingreso/pobreza. |
 | `BMXBMI` | Índice de masa corporal. |
-| `BMXWT` | Peso. |
-| `BMXHT` | Estatura. |
 | `BMXWAIST` | Circunferencia de cintura. |
-| `DIQ010` | Diagnóstico reportado de diabetes. |
 | `LBXGH` | Hemoglobina glicosilada HbA1c. |
 | `LBXGLU` | Glucosa plasmática en ayunas. |
-| `PAQ_*` | Variables de actividad física. |
-| `SLQ_*` | Variables de sueño. |
-| `BPXO_*` | Variables de presión arterial. |
 
-Features derivadas recomendadas:
+## Roadmap Técnico
 
-```text
-age_group
-bmi_category
-has_obesity
-high_a1c
-high_fasting_glucose
-physical_activity_level
-sleep_risk_category
-income_group
-diabetes_target
-```
-
-## Modelamiento
-
-Modelos recomendados:
-
-```text
-LogisticRegression
-RandomForestClassifier
-GradientBoostingClassifier
-```
-
-Métricas mínimas:
-
-```text
-accuracy
-precision
-recall
-f1-score
-roc-auc
-confusion matrix
-classification report
-```
-
-Como el target puede estar desbalanceado, se debe revisar especialmente `precision`, `recall`, `f1-score`, matriz de confusión, curva ROC y curva precision-recall. También debe documentarse si se aplicó `class_weight="balanced"`, ajuste de umbral o comparación entre modelos.
-
-## Dashboard Recomendado
-
-Vista ejecutiva:
-
-- Total de participantes analizados.
-- Porcentaje estimado de `diabetes_target`.
-- Distribución por edad, sexo e IMC.
-- Top variables asociadas al modelo.
-
-Vista técnica:
-
-- Matriz de confusión.
-- Accuracy, precision, recall y F1-score.
-- ROC-AUC y curva precision-recall.
-- Comparación de modelos.
-- Feature importance.
-
-Vista operativa:
-
-- Filtros por edad, sexo, IMC, actividad física y sueño.
-- Tabla de registros procesados.
-- Simulador de predicción individual.
-- Descarga de resultados en CSV.
-
-## API REST Recomendada
-
-Endpoints mínimos:
-
-```text
-GET /health
-GET /metrics
-GET /features
-GET /model-info
-POST /predict
-```
-
-Ejemplo de payload:
-
-```json
-{
-  "RIDAGEYR": 55,
-  "RIAGENDR": 1,
-  "BMXBMI": 31.5,
-  "LBXGH": 6.8,
-  "LBXGLU": 130,
-  "INDFMPIR": 2.1
-}
-```
-
-Respuesta esperada:
-
-```json
-{
-  "prediction": 1,
-  "label": "riesgo_diabetes",
-  "probability": 0.87,
-  "model_version": "v1.0.0"
-}
-```
-
-## Docker
-
-Servicios sugeridos:
-
-```text
-kedro-etl
-api
-dashboard
-db
-```
-
-Variables de entorno sugeridas en `.env.example`:
-
-```text
-PROJECT_NAME=DiabetesNHANES
-MODEL_PATH=data/06_models/model.pkl
-DATABASE_URL=sqlite:///data/diabetes_nhanes.db
-API_PORT=8000
-DASHBOARD_PORT=8501
-```
+- Implementar pipeline de ingesta con validación de archivos.
+- Construir pipeline de limpieza para nulos, duplicados y códigos especiales NHANES.
+- Crear features clínicas: categoría BMI, grupo etario, riesgo por HbA1c y glucosa.
+- Entrenar modelos base con `scikit-learn`.
+- Exportar métricas, matriz de confusión e importancia de variables.
+- Agregar pruebas automatizadas con `pytest`.
+- Incorporar dashboard y API cuando el pipeline de datos esté estable.
 
 ## Flujo Git Recomendado
 
-El repositorio usa una estrategia Git Flow simplificada:
+El repositorio usa una estrategia colaborativa simple:
 
 | Rama | Propósito |
 | --- | --- |
-| `main` | Versión final estable. |
-| `develop` | Integración del equipo. |
-| `feature/a` | Ingesta, estructura Kedro y fuentes de datos. |
-| `feature/b` | Limpieza, transformación y dataset modelable. |
-| `feature/c` | Modelamiento, dashboard, API, Docker y documentación final. |
+| `main` | Versión estable del proyecto. |
+| `develop` | Integración de avances antes de liberar a `main`. |
+| `feature/a` | Trabajo de pipelines, datos, limpieza, features y modelos. |
+| `feature/b` | Trabajo de documentación, visualización, API y despliegue. |
 
-Flujo correcto:
-
-```text
-feature/a -> develop
-feature/b -> develop
-feature/c -> develop
-develop   -> main
-```
-
-No se debe integrar una rama `feature/*` directamente a `main`.
-
-## División Por Ramas
-
-### Integrante 1 - `feature/a`
-
-Responsable de Kedro, ingesta y arquitectura base.
-
-Tareas principales:
-
-- Crear el proyecto Kedro y estructura de carpetas.
-- Configurar `catalog.yml` y `parameters.yml`.
-- Descargar o preparar archivos NHANES XPT.
-- Cargar `DEMO_L`, `DIQ_L`, `BMX_L`, `GHB_L`, `GLU_L` y fuentes adicionales.
-- Crear lectura de CSV/Excel propio.
-- Crear base SQLite/PostgreSQL de auditoría.
-- Validar columnas obligatorias.
-- Crear pipeline de ingesta.
-- Documentar fuentes de datos.
-
-Archivos esperados:
+Flujo esperado:
 
 ```text
-src/nhanes_diabetes/pipelines/ingestion/
-conf/base/catalog.yml
-conf/base/parameters.yml
-data/01_raw/
-data/diabetes_nhanes.db
-docs/diccionario_datos.md
-tests/test_ingestion.py
+feature/a ─┐
+           ├──> develop ───> main
+feature/b ─┘
 ```
 
-### Integrante 2 - `feature/b`
-
-Responsable de limpieza, transformación y feature engineering.
-
-Tareas principales:
-
-- Unir tablas NHANES usando `SEQN`.
-- Limpiar códigos especiales.
-- Tratar nulos y duplicados.
-- Validar rangos.
-- Crear `diabetes_target`.
-- Crear variables derivadas.
-- Codificar variables categóricas.
-- Normalizar variables numéricas.
-- Guardar dataset final en `data/05_model_input/`.
-
-Archivos esperados:
+Convención sugerida de commits:
 
 ```text
-src/nhanes_diabetes/pipelines/cleaning/
-src/nhanes_diabetes/pipelines/feature_engineering/
-data/02_intermediate/
-data/03_primary/
-data/04_feature/
-data/05_model_input/model_input.csv
-tests/test_cleaning.py
-tests/test_features.py
-```
-
-### Integrante 3 - `feature/c`
-
-Responsable de modelamiento, dashboard, API, Docker y documentación final.
-
-Tareas principales:
-
-- Entrenar modelos.
-- Evaluar métricas.
-- Guardar modelo entrenado y predicciones.
-- Crear visualizaciones.
-- Crear dashboard Streamlit.
-- Crear API FastAPI.
-- Crear Dockerfile y `docker-compose.yml`.
-- Completar README, documentación final y evidencias Git.
-
-Archivos esperados:
-
-```text
-src/nhanes_diabetes/pipelines/modeling/
-src/nhanes_diabetes/pipelines/reporting/
-data/06_models/model.pkl
-data/07_model_output/predictions.csv
-data/08_reporting/metrics.json
-data/08_reporting/model_comparison.csv
-data/08_reporting/confusion_matrix.png
-data/08_reporting/feature_importance.csv
-dashboards/streamlit_app.py
-api/main.py
-docker/Dockerfile
-docker/docker-compose.yml
-README.md
-docs/modelo.md
-docs/arquitectura.md
-docs/manual_usuario.md
-docs/guia_despliegue.md
-docs/evidencias_git.md
-```
-
-## Issues Sugeridas
-
-```text
-#1 Configurar proyecto Kedro base
-#2 Configurar catalog.yml
-#3 Descargar y cargar archivos NHANES XPT
-#4 Crear diccionario de variables y umbrales
-#5 Crear base SQLite de auditoría
-#6 Unir tablas por SEQN
-#7 Limpiar códigos especiales y nulos
-#8 Crear diabetes_target
-#9 Crear variables derivadas
-#10 Generar dataset model_input
-#11 Entrenar modelos baseline
-#12 Evaluar modelos y guardar métricas
-#13 Crear dashboard Streamlit
-#14 Crear API FastAPI
-#15 Crear Docker y docker-compose
-#16 Crear tests automatizados
-#17 Completar README
-#18 Crear documentación técnica
-#19 Preparar evidencias Git
-#20 Preparar presentación final
-```
-
-## Convención De Commits
-
-```text
-feat: nueva funcionalidad
-fix: corrección
-docs: documentación
-test: pruebas
-chore: configuración
-refactor: mejora interna
-```
-
-Ejemplos:
-
-```bash
-git commit -m "feat(ingestion): load NHANES XPT datasets"
-git commit -m "feat(cleaning): handle missing values and invalid codes"
-git commit -m "feat(features): create diabetes target"
-git commit -m "feat(modeling): train baseline classifiers"
-git commit -m "feat(dashboard): add diabetes analytics dashboard"
-git commit -m "docs(readme): add installation and execution guide"
-git commit -m "chore(docker): add compose services"
-```
-
-## Checklist Para El 100%
-
-### ETL Y Kedro
-
-- [ ] Proyecto Kedro creado.
-- [ ] `catalog.yml` configurado.
-- [ ] Múltiples fuentes integradas.
-- [ ] Archivos NHANES XPT cargados.
-- [ ] CSV/Excel propio usado.
-- [ ] SQLite/PostgreSQL usado para auditoría o resultados.
-- [ ] Tablas unidas por `SEQN`.
-- [ ] Nulos tratados.
-- [ ] Duplicados tratados.
-- [ ] Outliers o rangos inválidos tratados.
-- [ ] Dataset `model_input` generado.
-
-### Modelamiento
-
-- [ ] Mínimo 2 modelos entrenados.
-- [ ] Comparación de métricas.
-- [ ] Matriz de confusión.
-- [ ] ROC-AUC o curva PR.
-- [ ] Feature importance.
-- [ ] Modelo guardado.
-- [ ] Predicciones guardadas.
-
-### Dashboard
-
-- [ ] Vista ejecutiva.
-- [ ] Vista técnica.
-- [ ] Vista operativa.
-- [ ] Filtros interactivos.
-- [ ] KPIs.
-- [ ] Métricas del modelo.
-- [ ] Gráficos de distribución.
-- [ ] Simulador de predicción.
-
-### Git
-
-- [ ] `main` estable.
-- [ ] `develop` integración.
-- [ ] `feature/a` para ingesta.
-- [ ] `feature/b` para limpieza/features.
-- [ ] `feature/c` para modelo/producto.
-- [ ] Pull Requests.
-- [ ] Issues.
-- [ ] Commits claros.
-- [ ] Evidencias exportadas.
-
-### Docker Y Despliegue
-
-- [ ] Dockerfile.
-- [ ] `docker-compose.yml`.
-- [ ] `.env.example`.
-- [ ] Servicio API.
-- [ ] Servicio dashboard.
-- [ ] Servicio ETL.
-- [ ] Guía de despliegue.
-
-### Documentación
-
-- [ ] README completo.
-- [ ] Arquitectura.
-- [ ] Diccionario de datos.
-- [ ] Guía de instalación.
-- [ ] Guía de uso.
-- [ ] Documentación API.
-- [ ] Explicación del modelo.
-- [ ] Evidencias Git.
-
-## Presentación De 15 Minutos
-
-```text
-Min 0-1: Problema y objetivo del proyecto.
-Min 1-3: Fuente NHANES y variables usadas.
-Min 3-5: Arquitectura Kedro y flujo ETL.
-Min 5-7: Limpieza, transformación y target diabetes.
-Min 7-9: Modelos y métricas.
-Min 9-11: Dashboard Streamlit.
-Min 11-12: API y Docker.
-Min 12-14: Git Flow, branches, PRs e issues.
-Min 14-15: Cierre, limitaciones y mejoras futuras.
-```
-
-Frase para defender Git:
-
-```text
-Trabajamos con una estrategia Git Flow simplificada. main se mantuvo como rama estable de entrega, develop como rama de integración, y cada integrante trabajó en una rama feature separada. feature/a concentró la ingesta y arquitectura Kedro, feature/b la limpieza y transformación de datos, y feature/c el modelamiento, dashboard, API, Docker y documentación final. Ninguna rama feature se integró directamente a main; todas pasaron primero por Pull Request hacia develop, donde se probaron antes de liberar la versión final.
+docs: update readme
+feat: add ingestion pipeline
+fix: handle missing values
+test: add data validation tests
+chore: update project config
 ```
 
 ## Buenas Prácticas
@@ -724,8 +266,16 @@ El proyecto concentra rutas y parámetros en configuración Kedro para que el fl
 
 - NHANES es una encuesta poblacional y no una historia clínica individual.
 - Algunas variables son autoinformadas.
-- El target `diabetes_target` es una aproximación analítica basada en reglas y variables disponibles.
-- Las métricas finales dependerán de la calidad de limpieza, features, modelamiento y balance de clases.
+- El target inicial `DIQ010` representa diagnóstico reportado, no diagnóstico calculado por el proyecto.
+- Las métricas finales dependerán de la implementación futura de limpieza, features y modelamiento.
+
+## Equipo
+
+| Rol | Responsabilidad |
+| --- | --- |
+| Data Engineering | Descarga, catálogo, ingesta y limpieza. |
+| Data Science | Features, modelos, métricas y validación. |
+| Producto / Documentación | README, evidencias, presentación y guía de uso. |
 
 ## Licencia Y Uso
 
