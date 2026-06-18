@@ -1,0 +1,59 @@
+nhanes_base_url: "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles"
+nhanes_files: [DIQ_L.xpt, DEMO_L.xpt, BMX_L.xpt, GHB_L.xpt, GLU_L.xpt, PAQ_L.xpt, SLQ_L.xpt, BPXO_L.xpt]
+target_column: "diabetes_target"
+merge_key: "SEQN"
+
+ingestion:
+  audit_db_path: "data/diabetes_nhanes.db"
+  required_columns:
+    nhanes_demo_raw: [SEQN, RIDAGEYR, RIAGENDR, RIDRETH3]
+    nhanes_diq_raw: [SEQN, DIQ010]
+    nhanes_bmx_raw: [SEQN, BMXBMI, BMXWT, BMXHT]
+    nhanes_ghb_raw: [SEQN, LBXGH]
+    nhanes_glu_raw: [SEQN, LBXGLU]
+    nhanes_paq_raw: [SEQN]
+    nhanes_slq_raw: [SEQN]
+    nhanes_bpxo_raw: [SEQN]
+
+cleaning:
+  audit_db_path: "data/diabetes_nhanes.db"
+  merge_key: "SEQN"
+  filter_adults: true
+  adult_min_age: 18
+  keep_columns:
+    demo: [SEQN, RIDAGEYR, RIAGENDR, RIDRETH3, INDFMPIR]
+    diq: [SEQN, DIQ010]
+    bmx: [SEQN, BMXBMI, BMXWAIST, BMXWT, BMXHT]
+    ghb: [SEQN, LBXGH]
+    glu: [SEQN, LBXGLU]
+    paq: [SEQN, PAD680]
+    slq: [SEQN, SLD012, SLD013]
+    bpxo: [SEQN, BPXOSY1, BPXODI1]
+  special_codes:
+    DIQ010: [7, 9]
+  generic_special_codes: [77, 99, 777, 999, 7777, 9999]
+  valid_ranges:
+    RIDAGEYR: [18, 80]
+    BMXBMI: [10, 70]
+    BMXWAIST: [40, 200]
+    BMXWT: [20, 300]
+    BMXHT: [100, 220]
+    LBXGH: [3, 20]
+    LBXGLU: [30, 500]
+    INDFMPIR: [0, 5]
+
+features:
+  target_rule: {diq010_positive: 1, a1c_threshold: 6.5, glucose_threshold: 126}
+  a1c_threshold: 6.5
+  glucose_threshold: 126
+  age_bins: [[18, 44], [45, 64], [65, 200]]
+  bmi_bins: {underweight: 18.5, normal: 25, overweight: 30}
+  pir_bins: [1, 2, 4]
+  categorical_to_encode: [RIDRETH3, age_group, bmi_category, income_group, physical_activity_level, sleep_risk_category]
+  drop_features: [DIQ010, LBXGH, LBXGLU, high_a1c, high_fasting_glucose]
+  drop_constant: true
+  drop_perfectly_correlated: true
+
+modeling:
+  test_size: 0.2
+  random_state: 42

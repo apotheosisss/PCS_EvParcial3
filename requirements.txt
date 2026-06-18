@@ -1,0 +1,4 @@
+kedro>=1.0.0
+kedro-datasets[pandas,pickle,json,matplotlib]>=3.0.0
+pandas>=2.0.0
+scikit-learn>=1.

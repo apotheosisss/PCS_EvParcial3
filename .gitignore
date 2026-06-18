@@ -1,0 +1,39 @@
+# Kedro data (never commit raw/processed data)
+data/**
+!data/.gitkeep
+!data/**/.gitkeep
+
+# Logs
+logs/
+.viz/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Environments
+.env
+.venv
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kedro local config (may contain credentials)
+conf/local/**
+!conf/local/.gi

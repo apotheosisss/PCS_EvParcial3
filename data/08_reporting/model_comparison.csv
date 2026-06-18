@@ -1,4 +1,0 @@
-model,accuracy,precision,recall,f1,roc_auc
-logistic_regression,0.8632,0.5519,0.7739,0.6443,0.9223
-random_forest,0.9264,0.8249,0.6858,0.749,0.9288
-gradient_boosting,0.9405,0.9505,0.6628,0.781,0.9295
