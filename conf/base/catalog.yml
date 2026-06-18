@@ -80,10 +80,29 @@ nhanes_sources_summary:
 sqlite_ingestion_audit_status:
   type: MemoryDataset
 
-# Feature C model input (lo entrega feature/b, ver docs/CONTRATO_FEATURE_B.md).
+# Feature B: datasets intermedios de limpieza y features.
+nhanes_merged:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/nhanes_merged.parquet
+
+nhanes_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/nhanes_clean.parquet
+
+nhanes_features:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/nhanes_features.parquet
+
+# Feature B -> Feature C model input (ver docs/CONTRATO_FEATURE_B.md).
 model_input:
   type: pandas.CSVDataset
   filepath: data/05_model_input/model_input.csv
+  save_args:
+    index: false
+
+feature_metadata:
+  type: json.JSONDataset
+  filepath: data/05_model_input/feature_metadata.json
 
 # Modeling outputs.
 model_bundle:
