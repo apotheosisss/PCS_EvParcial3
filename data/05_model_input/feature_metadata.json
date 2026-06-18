@@ -1,0 +1,265 @@
+{
+  "target": "diabetes_target",
+  "id": "SEQN",
+  "features": [
+    {
+      "name": "RIDAGEYR",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 55.0
+    },
+    {
+      "name": "RIAGENDR",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 2.0
+    },
+    {
+      "name": "INDFMPIR",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 2.75
+    },
+    {
+      "name": "BMXBMI",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 28.3
+    },
+    {
+      "name": "BMXWAIST",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 99.0
+    },
+    {
+      "name": "BMXWT",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 79.5
+    },
+    {
+      "name": "BMXHT",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 166.6
+    },
+    {
+      "name": "LBXGH",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 5.5
+    },
+    {
+      "name": "LBXGLU",
+      "dtype": "float64",
+      "is_derived": false,
+      "user_facing": true,
+      "default": 101.0
+    },
+    {
+      "name": "PAD680",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 300.0
+    },
+    {
+      "name": "SLD012",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 8.0
+    },
+    {
+      "name": "SLD013",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 8.0
+    },
+    {
+      "name": "BPXOSY1",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 120.0
+    },
+    {
+      "name": "BPXODI1",
+      "dtype": "float64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 74.0
+    },
+    {
+      "name": "has_obesity",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "high_a1c",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "high_fasting_glucose",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "RIDRETH3_1.0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "RIDRETH3_2.0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "RIDRETH3_3.0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 1.0
+    },
+    {
+      "name": "RIDRETH3_4.0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "RIDRETH3_6.0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "RIDRETH3_7.0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "age_group_age_18_44",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "age_group_age_45_64",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "age_group_age_65_200",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "bmi_category_normal",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "bmi_category_overweight",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "bmi_category_underweight",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "income_group_income_0",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "income_group_income_1",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "income_group_income_2",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "income_group_income_3",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "physical_activity_level_activo",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "physical_activity_level_moderado",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "physical_activity_level_sedentario",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 0.0
+    },
+    {
+      "name": "sleep_risk_category_normal",
+      "dtype": "int64",
+      "is_derived": true,
+      "user_facing": false,
+      "default": 1.0
+    }
+  ]
+}
