@@ -89,8 +89,8 @@ features:
     overweight: 30
   pir_bins: [1, 2, 4]
   categorical_to_encode: [RIDRETH3, age_group, bmi_category, income_group, physical_activity_level, sleep_risk_category]
-  # DIQ010 es fuente del target (diagnostico autoreportado) y no es user-facing: se excluye como feature.
-  drop_features: [DIQ010]
+  # DIQ010 y los biomarcadores usados para construir el target se excluyen para evitar data leakage.
+  drop_features: [DIQ010, LBXGH, LBXGLU, high_a1c, high_fasting_glucose]
   drop_constant: true
   drop_perfectly_correlated: true
 
