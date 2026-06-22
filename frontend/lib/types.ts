@@ -44,6 +44,7 @@ export interface ModelScores {
   recall: number
   f1: number
   roc_auc: number
+  pr_auc?: number
 }
 
 export interface Metrics {
@@ -116,5 +117,23 @@ export interface PredictionsResponse {
   total: number
   limit: number
   offset: number
-  items: Record<string, number>[]
+  items: Record<string, unknown>[]
+}
+
+export interface RocPoint { fpr: number; tpr: number }
+export interface PrPoint { recall: number; precision: number }
+export interface CalibrationPoint { predicted: number; observed: number }
+export interface DistributionPoint { score: number; sin_diabetes: number; con_diabetes: number }
+export interface DecisionPoint { threshold: number; modelo: number; tratar_todos: number }
+
+export interface Curves {
+  roc: RocPoint[]
+  pr: PrPoint[]
+  calibration: CalibrationPoint[]
+  distribution: DistributionPoint[]
+  decision_curve: DecisionPoint[]
+  roc_auc: number
+  pr_auc: number
+  prevalence: number
+  threshold: number
 }

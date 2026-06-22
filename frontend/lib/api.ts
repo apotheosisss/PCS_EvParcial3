@@ -3,6 +3,7 @@
 import type {
   BatchPredictResponse,
   ConfusionMatrix,
+  Curves,
   DistributionResponse,
   FeatureImportance,
   FeaturesResponse,
@@ -69,6 +70,7 @@ export const api = {
   features: () => request<FeaturesResponse>("/features"),
   thresholds: () => request<{ thresholds: Threshold[] }>("/thresholds"),
   metrics: () => request<Metrics>("/metrics"),
+  curves: () => request<Curves>("/curves"),
   modelComparison: () => request<{ models: ModelComparisonRow[] }>("/model-comparison"),
   confusionMatrix: () => request<ConfusionMatrix>("/confusion-matrix"),
   featureImportance: (top = 15) =>

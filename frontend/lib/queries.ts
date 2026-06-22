@@ -19,6 +19,9 @@ export const useThresholds = () =>
 export const useMetrics = () =>
   useQuery({ queryKey: ["metrics"], queryFn: api.metrics })
 
+export const useCurves = () =>
+  useQuery({ queryKey: ["curves"], queryFn: api.curves })
+
 export const useModelComparison = () =>
   useQuery({ queryKey: ["model-comparison"], queryFn: api.modelComparison })
 

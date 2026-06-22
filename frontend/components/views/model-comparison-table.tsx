@@ -1,7 +1,7 @@
 "use client"
 
 import { useMetrics, useModelComparison } from "@/lib/queries"
-import { decimal } from "@/lib/format"
+import { pct } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import { QueryBoundary } from "@/components/states"
 import { Badge } from "@/components/ui/badge"
@@ -15,12 +15,16 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-const COLS: { key: "accuracy" | "precision" | "recall" | "f1" | "roc_auc"; label: string }[] = [
+const COLS: {
+  key: "accuracy" | "precision" | "recall" | "f1" | "roc_auc" | "pr_auc"
+  label: string
+}[] = [
   { key: "accuracy", label: "Accuracy" },
   { key: "precision", label: "Precision" },
   { key: "recall", label: "Recall" },
   { key: "f1", label: "F1" },
   { key: "roc_auc", label: "ROC-AUC" },
+  { key: "pr_auc", label: "PR-AUC" },
 ]
 
 export function ModelComparisonTable() {
@@ -32,7 +36,7 @@ export function ModelComparisonTable() {
     <Card>
       <CardHeader>
         <CardTitle>Comparación de modelos</CardTitle>
-        <CardDescription>Métricas sobre el conjunto de prueba (mejor modelo resaltado)</CardDescription>
+        <CardDescription>Métricas sobre el conjunto de prueba (mejor modelo por PR-AUC, resaltado)</CardDescription>
       </CardHeader>
       <div className="px-6 pb-6">
         <QueryBoundary isLoading={isLoading} error={error} skeletonHeight={180}>
@@ -64,7 +68,7 @@ export function ModelComparisonTable() {
                     </TableCell>
                     {COLS.map((c) => (
                       <TableCell key={c.key} className="text-right tabular-nums">
-                        {decimal(row[c.key])}
+                        {pct(row[c.key])}
                       </TableCell>
                     ))}
                   </TableRow>
