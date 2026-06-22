@@ -7,9 +7,8 @@ Front-end Next.js (App Router) + shadcn/ui que consume la API FastAPI del proyec
 
 ## Requisitos
 
-- Node.js 20+ (probado con Node 24).
-- La API corriendo: desde la raíz del repo `uvicorn api.main:app --reload` (puerto 8000)
-  con los artefactos generados (`kedro run` o `python scripts/make_sample_model_input.py`).
+- Node.js 20+ (probado con Node 24) y Python con las dependencias de la raíz instaladas.
+- Artefactos del modelo generados (`kedro run` o `python scripts/make_sample_model_input.py` + `kedro run`).
 
 ## Configuración
 
@@ -19,17 +18,23 @@ Crea `frontend/.env.local` con la URL base de la API:
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
 
-La API ya permite CORS para `http://localhost:3000`, `http://localhost:5173` y
-`http://localhost:8501` (ver `CORS_ORIGINS` en `.env.example` de la raíz). Si sirves
-el front en otro origen, agrégalo ahí.
+El front se sirve en el puerto **5173** (no 3000) porque está en la allowlist de CORS
+de la API (`CORS_ORIGINS` en `.env.example` de la raíz) y evita choques con otros
+servicios locales en 3000. Si lo sirves en otro origen, agrégalo a `CORS_ORIGINS`.
 
-## Desarrollo
+## Desarrollo (front + API juntos)
 
 ```bash
 cd frontend
 npm install        # solo la primera vez
-npm run dev        # http://localhost:3000
+npm run dev        # levanta Next (:5173) y uvicorn (:8000) a la vez
 ```
+
+Abre `http://localhost:5173`. `npm run dev` usa `concurrently`:
+- `dev:web` → `next dev -p 5173`
+- `dev:api` → `uvicorn api.main:app --reload` (desde la raíz del repo, :8000)
+
+Para correr solo uno: `npm run dev:web` o `npm run dev:api`.
 
 ## Build de producción
 
@@ -42,9 +47,11 @@ npm run start
 
 | Script | Descripción |
 |--------|-------------|
-| `npm run dev` | Servidor de desarrollo |
+| `npm run dev` | Next (:5173) + uvicorn (:8000) en paralelo |
+| `npm run dev:web` | Solo Next (:5173) |
+| `npm run dev:api` | Solo la API (uvicorn :8000) |
 | `npm run build` | Build de producción |
-| `npm run start` | Sirve el build |
+| `npm run start` | Sirve el build (:5173) |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | Chequeo de tipos (`tsc --noEmit`) |
 
