@@ -1,4 +1,12 @@
 # DiabetesNHANES — orquestación de servicios (feature/c)
+#
+# Un solo comando levanta todo el sistema end-to-end:
+#     docker compose -f docker/docker-compose.yml up --build
+#
+# Orden: kedro-etl genera los artefactos en el volumen `data/` y, solo cuando
+# termina con éxito, arrancan la API (8000) y el dashboard (8501), que leen
+# esos mismos artefactos. La base Postgres es opcional (el proyecto usa SQLite).
+
 services:
 
   # 1) Pipeline Kedro: ejecuta ETL + modelado y produce los artefactos en data/
@@ -6,17 +14,18 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    image: diabetes-nhanes-app          # imagen reutilizada por el servicio api
+    container_name: nhanes-kedro-etl
     command: kedro run
     volumes:
       - ../data:/app/data
     env_file:
       - ../.env.example
 
-  # 2) API de predicción
+  # 2) API de predicción (FastAPI) — docs en http://localhost:8000/docs
   api:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: diabetes-nhanes-app          # no rebuild: reusa la imagen del ETL
+    container_name: nhanes-api
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
@@ -25,33 +34,58 @@ services:
     env_file:
       - ../.env.example
     depends_on:
-      - kedro-etl
+      kedro-etl:
+        condition: service_completed_successfully   # espera a que el ETL termine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
-  # 3) Dashboard Streamlit
-  dashboard:
+  # 3) Dashboard web (frontend Next.js) — http://localhost:8501
+  #    Sirve las 3 vistas (Ejecutiva/Técnica/Operativa) y consume la API.
+  #    Internamente Next corre en 5173; lo publicamos en el host como 8501
+  #    (origen ya permitido en CORS_ORIGINS) para no cambiar el guion.
+  frontend:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.dashboard
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: nhanes-frontend
     ports:
-      - "8501:8501"
-    volumes:
-      - ../data:/app/data
-    env_file:
-      - ../.env.example
+      - "8501:5173"
     depends_on:
-      - kedro-etl
+      api:
+        condition: service_healthy   # el dashboard necesita la API arriba
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5173/ >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
-  # 4) Base de datos de auditoría (Postgres opcional; el proyecto usa SQLite por defecto)
+  # 4) Base de datos de auditoría (Postgres opcional; por defecto el proyecto usa SQLite)
   db:
     image: postgres:16-alpine
+    container_name: nhanes-db
     environment:
       POSTGRES_USER: nhanes
       POSTGRES_PASSWORD: nhanes
       POSTGRES_DB: diabetes_nhanes
-    ports:
-      - "5432:5432"
+    # Sin publicar al host: el resto de servicios la alcanzan por la red interna
+    # de compose (host "db"). Evita choques con un Postgres ya corriendo en :5432.
+    expose:
+      - "5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nhanes -d diabetes_nhanes"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   pgdata:

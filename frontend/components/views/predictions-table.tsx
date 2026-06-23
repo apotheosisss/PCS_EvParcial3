@@ -66,7 +66,7 @@ export function PredictionsTable() {
                         key={c}
                         className={j === 0 ? "" : "text-right tabular-nums"}
                       >
-                        {row[c]}
+                        {String(row[c] ?? "")}
                       </TableCell>
                     ))}
                   </TableRow>
