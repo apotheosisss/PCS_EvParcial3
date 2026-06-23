@@ -48,11 +48,13 @@ def predict(
     bundle = store.bundle()
     X = build_matrix(payloads, bundle)
     proba = bundle["model"].predict_proba(X)[:, 1]
+    # Umbral optimizado guardado en el bundle por el modelo (fallback al de settings).
+    threshold = float(bundle.get("threshold", s.decision_threshold))
 
     results: list[dict[str, Any]] = []
     for p in proba:
         p = float(p)
-        pred = int(p >= s.decision_threshold)
+        pred = int(p >= threshold)
         results.append(
             {
                 "prediction": pred,

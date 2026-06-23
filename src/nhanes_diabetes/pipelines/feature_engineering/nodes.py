@@ -96,6 +96,34 @@ def create_derived_features(df: pd.DataFrame, params: dict[str, Any]) -> pd.Data
             out["LBXGLU"] >= float(params.get("glucose_threshold", 126))
         ).astype(int)
 
+    # Ratio cintura/talla: fuerte predictor metabolico sin laboratorio.
+    if "BMXWAIST" in out and "BMXHT" in out:
+        out["waist_height_ratio"] = (out["BMXWAIST"] / out["BMXHT"]).round(4)
+
+    # Ratio cintura/cadera: predictor metabolico (no laboratorio).
+    if "BMXWAIST" in out and "BMXHIP" in out:
+        out["waist_hip_ratio"] = (out["BMXWAIST"] / out["BMXHIP"]).round(4)
+
+    # Pulso medio de las 3 lecturas oscilometricas.
+    pulse_cols = [c for c in ("BPXOPLS1", "BPXOPLS2", "BPXOPLS3") if c in out.columns]
+    if pulse_cols:
+        out["pulse_mean"] = out[pulse_cols].mean(axis=1).round(1)
+
+    # Categoria de presion arterial (ACC/AHA) desde sistolica/diastolica.
+    if "BPXOSY1" in out and "BPXODI1" in out:
+        def _bp_cat(row):
+            sy, di = row.get("BPXOSY1"), row.get("BPXODI1")
+            if pd.isna(sy) or pd.isna(di):
+                return "desconocida"
+            if sy >= 140 or di >= 90:
+                return "htn2"
+            if sy >= 130 or di >= 80:
+                return "htn1"
+            if sy >= 120:
+                return "elevada"
+            return "normal"
+        out["bp_category"] = out[["BPXOSY1", "BPXODI1"]].apply(_bp_cat, axis=1)
+
     if "INDFMPIR" in out:
         pir_bins = params.get("pir_bins", [1, 2, 4])
         edges = [-0.01] + list(pir_bins) + [np.inf]
@@ -134,7 +162,6 @@ def select_final_features(df: pd.DataFrame, params: dict[str, Any]) -> pd.DataFr
     """Quita columnas excluidas, no numericas residuales, constantes y correlacionadas."""
     out = df.copy()
 
-    # Excluir features no deseadas (p.ej. DIQ010: fuente del target y no user-facing).
     drop_features = [c for c in params.get("drop_features", []) if c in out.columns]
     if drop_features:
         logger.info("Excluyendo features por configuracion: %s", drop_features)

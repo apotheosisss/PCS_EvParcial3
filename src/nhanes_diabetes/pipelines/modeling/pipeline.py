@@ -32,7 +32,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 select_and_finalize,
-                inputs=["trained_models", "evaluation", "data_split"],
+                inputs=["trained_models", "evaluation", "data_split", "params:modeling"],
                 outputs={
                     "model_bundle": "model_bundle",
                     "metrics": "model_metrics",

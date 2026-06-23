@@ -26,6 +26,12 @@ def metrics(store: ArtifactStore = Depends(get_store)) -> dict[str, Any]:
     return store.metrics()
 
 
+@router.get("/curves")
+def curves(store: ArtifactStore = Depends(get_store)) -> dict[str, Any]:
+    """Curvas de evaluacion (ROC, PR, calibracion, distribucion, decision)."""
+    return reporting_service.curves(store)
+
+
 @router.get("/model-comparison", response_model=ModelComparisonResponse)
 def model_comparison(store: ArtifactStore = Depends(get_store)) -> ModelComparisonResponse:
     return ModelComparisonResponse(**reporting_service.comparison(store))
