@@ -10,6 +10,9 @@ Datasets:
   BMX_L.xpt  - Body measures               (BMI, waist)
   GHB_L.xpt  - Glycohemoglobin / HbA1c     (LBXGH)
   GLU_L.xpt  - Plasma fasting glucose      (LBXGLU)
+  PAQ_L.xpt  - Physical activity
+  SLQ_L.xpt  - Sleep questionnaire
+  BPXO_L.xpt - Blood pressure examination
 
 Usage:
     python scripts/download_nhanes.py
@@ -29,6 +32,9 @@ FILES = [
     "BMX_L.xpt",
     "GHB_L.xpt",
     "GLU_L.xpt",
+    "PAQ_L.xpt",
+    "SLQ_L.xpt",
+    "BPXO_L.xpt",
 ]
 
 RAW_DIR = Path(__file__).resolve().parent.parent / "data" / "01_raw"

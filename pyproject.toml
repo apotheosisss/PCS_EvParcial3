@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.backends.legacy:build"
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "nhanes-diabetes"
@@ -27,3 +27,6 @@ source_dir = "src"
 [tool.setuptools.packages.find]
 where = ["src"]
 namespaces = false
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

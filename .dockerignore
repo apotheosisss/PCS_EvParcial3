@@ -1,0 +1,51 @@
+# Contexto de build mínimo -> imágenes más pequeñas y builds más rápidos.
+# Lo pesado/irrelevante para los servicios Python (ETL, API, dashboard) se excluye.
+
+# Control de versiones e historial
+.git
+.gitignore
+.gitattributes
+
+# Frontend Next.js (no va en las imágenes Python; se sirve aparte)
+frontend/
+
+# Datos: se montan como volumen en runtime, no deben ir en la imagen
+data/
+*.db
+*.xpt
+
+# Entornos y dependencias locales
+.venv
+venv/
+env/
+.env
+node_modules/
+
+# Cachés y artefactos de Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.telemetry
+
+# Notebooks, logs y visualizaciones
+notebooks/
+*.ipynb
+.ipynb_checkpoints/
+logs/
+.viz/
+catboost_info/
+
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Config local de Kedro: Kedro EXIGE que el directorio exista (entorno por
+# defecto = local). Conservamos la carpeta y solo excluimos credenciales.
+conf/local/credentials*.yml
+conf/local/*credentials*

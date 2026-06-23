@@ -1,0 +1,5 @@
+variable,criterio,valor,descripcion
+LBXGH,>=,6.5,A1C compatible con diabetes para uso analitico educativo
+LBXGLU,>=,126,Glucosa en ayunas compatible con diabetes para uso analitico educativo
+BMXBMI,>=,30,Obesidad segun IMC
+RIDAGEYR,>=,45,Edad de mayor riesgo metabolico
