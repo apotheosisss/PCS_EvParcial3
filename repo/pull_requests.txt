@@ -1,0 +1,11 @@
+8021e85 se aprueba el mvp y se hace merge con main
+37d8a24 Merge pull request #8 from apotheosisss/feature/dashboard
+9005b76 Merge pull request #7 from apotheosisss/develop
+b6b9fc3 Merge pull request #6 from apotheosisss/feature/endpoints
+4ab0f3a Merge pull request #5 from apotheosisss/feature/dashboard
+da7151a fix(data): merge fix data leakage into develop
+20923f4 feat(desarrollo): integra feature a
+a4cb292 Merge pull request #4 from apotheosisss/revert/feature-a-from-main
+c2f1a83 Merge pull request #3 from apotheosisss/feature/a
+d41bf85 Merge pull request #2 from apotheosisss/develop
+83f63b0 Merge pull request #1 from apotheosisss/feature/c
