@@ -1,0 +1,11 @@
+* main
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/develop
+  remotes/origin/feature/a
+  remotes/origin/feature/b
+  remotes/origin/feature/c
+  remotes/origin/feature/dashboard
+  remotes/origin/feature/endpoints
+  remotes/origin/fix/data-leakage
+  remotes/origin/main
+  remotes/origin/revert/feature-a-from-main
