@@ -1,0 +1,67 @@
+*-.   8021e85 (HEAD -> main, origin/main, origin/HEAD) se aprueba el mvp y se hace merge con main
+|\ \  
+| | * fa39f04 (origin/develop) se crea docker, procedo a mergear en main
+| | *   37d8a24 Merge pull request #8 from apotheosisss/feature/dashboard
+| | |\  
+| | | * 8310648 (origin/feature/dashboard) Se mejoró el modelo y se incorporaron graficos al dashboard
+| | | * fd3d2fb se implementan mejores en el dashboard y se valida conexion con uvicorn
+| | | * 148fb61 Se generan primeras implementaciones del dashboard, ademas de un manual, como siguiente paso validar conexiones y ux
+| | | *   9005b76 Merge pull request #7 from apotheosisss/develop
+| | | |\  
+| | | |/  
+| | |/|   
+| | * |   b6b9fc3 Merge pull request #6 from apotheosisss/feature/endpoints
+| | |\ \  
+| | | * | f4e4a67 (origin/feature/endpoints) Se crean endpoints para conectar con dashboard, se documenta su uso en docs/plan_api.md
+| | |/ /  
+| | * | f2e6bf6 plan_api.md
+| | * | 4ab0f3a Merge pull request #5 from apotheosisss/feature/dashboard
+| | |\| 
+| | | * da7151a fix(data): merge fix data leakage into develop
+| | |/| 
+| | | * bbe885b (origin/fix/data-leakage) fix: elimina data leakage excluyendo biomarcadores (LBXGH, LBXGLU, high_a1c, high_fasting_glucose) de las features
+| | | * d783a72 (origin/feature/b) Implementacion feature B y algunos fix
+| | * | f8e32fa Implementacion feature B y algunos fix
+| | * |   20923f4 feat(desarrollo): integra feature a
+| | |\ \  
+| | * | | 1c5d3d1 stats
+| | * | | 2bd7983 docs(readme): update DiabetesNHANES project guide
+| * | | | 9adf612 docs(readme): update DiabetesNHANES project guide
+* | | | |   a4cb292 Merge pull request #4 from apotheosisss/revert/feature-a-from-main
+|\ \ \ \ \  
+| * | | | | a28638a (origin/revert/feature-a-from-main) Revert "Merge pull request #3 from apotheosisss/feature/a"
+|/ / / / /  
+* | | | |   c2f1a83 Merge pull request #3 from apotheosisss/feature/a
+|\ \ \ \ \  
+| |/ / / /  
+|/| | / /   
+| | |/ /    
+| |/| |     
+| * | | 0f62465 (origin/feature/a) feat(testing): documenta pruebas del sistema
+| * | | 81578d0 feat(configuracion): ignora archivos locales de kedro
+| * | | 283ba9b feat(catalogo): ajusta lectura de xpt
+| * | | f8cfa24 feat(documentacion): describe ingesta y datos
+| * | | ee3b1d2 feat(pruebas): valida ingesta nhanes
+| * | | 6659304 feat(ingesta): crea pipeline de auditoria
+| * | | da3dd1c feat(fuentes): agrega fuentes nhanes y umbrales
+| * | | 6a31a12 docs(readme): update DiabetesNHANES project guide
+| * | | d41bf85 Merge pull request #2 from apotheosisss/develop
+| |\| | 
+| | |/  
+| |/|   
+| | * 83f63b0 Merge pull request #1 from apotheosisss/feature/c
+| |/| 
+| | * ddd96fa (origin/feature/c) docs(contract): clarify minimum class size for feature/b dataset
+| | * a4a12ca docs: complete final README and project documentation
+| | * c1651f2 chore(docker): add Docker and compose services
+| | * f90ed8e feat(api): expose diabetes model prediction endpoint
+| | * 96d791f feat(dashboard): add Streamlit diabetes analytics dashboard
+| | * c8c96ad feat(evaluation): generate metrics and model comparison report
+| | * 68ec683 feat(modeling): train diabetes baseline classifiers
+| |/  
+|/|   
+* | fabd7c8 docs: polish readme
+* | 2ca4ad3 README Inicial para desarollo
+* | c17bf55 Arquitectura inicial proyecto
+|/  
+* 7e045cc first commit
