@@ -1,4 +1,4 @@
-// Genera el Informe Tecnico Ejecutivo (EFT) en Word. Requiere: npm install -g docx
+// Genera el Informe Técnico Ejecutivo (EFT) en Word. Requiere: npm install -g docx
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
@@ -76,10 +76,10 @@ const cover = [
   new Paragraph({ spacing: { before: 1200 }, alignment: AlignmentType.CENTER,
     children: [new ImageRun({ type: "png", data: fs.readFileSync("assets/logo.png"),
       transformation: { width: 120, height: 120 }, altText: { title: "logo", description: "logo", name: "logo" } })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, style: "Title", spacing: { before: 240 }, children: [new TextRun("Informe Tecnico Ejecutivo")] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, style: "Title", spacing: { before: 240 }, children: [new TextRun("Informe Técnico Ejecutivo")] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "DiabetesNHANES - Pipeline de Ciencia de Datos", size: 28, color: GRIS })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 80 }, children: [new TextRun({ text: "Evaluacion Final Transversal - SCY1101 Programacion para la Ciencia de Datos", size: 20, color: GRIS })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 600 }, children: [new TextRun({ text: "Equipo: apotheosisss, manueladmn, ElChacra", size: 20 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 80 }, children: [new TextRun({ text: "Evaluación Final Transversal - SCY1101 Programación para la Ciencia de Datos", size: 20, color: GRIS })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 600 }, children: [new TextRun({ text: "Equipo: Manuel Díaz, Claudio Aro, Guillermo Cerda", size: 20 })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Repositorio: github.com/apotheosisss/PCS_EvParcial3", size: 18, color: AZULC })] }),
   new Paragraph({ children: [new PageBreak()] }),
 ];
@@ -93,23 +93,23 @@ const toc = [
 const body = [
   // 1. Executive summary
   h1("1. Resumen ejecutivo"),
-  p("DiabetesNHANES es una solucion de ciencia de datos de extremo a extremo que estima el riesgo de diabetes en poblacion adulta a partir de datos publicos de la encuesta NHANES 2021-2023 (CDC/NCHS). El sistema integra multiples fuentes, ejecuta un pipeline ETL reproducible con Kedro, entrena un portafolio de seis modelos de machine learning y expone los resultados mediante una API REST y un dashboard interactivo, todo containerizado con Docker y desplegable en la nube (AWS)."),
-  p("Sobre 8.149 participantes adultos, el modelo seleccionado (regresion logistica calibrada) alcanza un ROC-AUC de 0,81 y un PR-AUC de 0,44, con una prevalencia real de diabetes del 16 %. El valor de negocio es un instrumento de tamizaje temprano y educativo que prioriza el recall (detectar casos) sobre la exactitud global, adecuado a un problema de salud publica con clases desbalanceadas.", { italics: false }),
-  p("Aviso: la variable objetivo es una aproximacion analitica/educativa basada en criterios ADA; no constituye diagnostico clinico.", { italics: true, color: GRIS }),
+  p("DiabetesNHANES es una solución de ciencia de datos de extremo a extremo que estima el riesgo de diabetes en población adulta a partir de datos públicos de la encuesta NHANES 2021-2023 (CDC/NCHS). El sistema integra múltiples fuentes, ejecuta un pipeline ETL reproducible con Kedro, entrena un portafolio de seis modelos de machine learning y expone los resultados mediante una API REST y un dashboard interactivo, todo contenerizado con Docker y desplegable en la nube (AWS)."),
+  p("Sobre 8.149 participantes adultos, el modelo seleccionado (regresión logística calibrada) alcanza un ROC-AUC de 0,81 y un PR-AUC de 0,44, con una prevalencia real de diabetes del 16 %. El valor de negocio es un instrumento de tamizaje temprano y educativo que prioriza el recall (detectar casos) sobre la exactitud global, adecuado a un problema de salud pública con clases desbalanceadas.", { italics: false }),
+  p("Aviso: la variable objetivo es una aproximación analítica/educativa basada en criterios ADA; no constituye diagnóstico clínico.", { italics: true, color: GRIS }),
 
   // 2. Contexto de negocio
   h1("2. Contexto de negocio"),
   bullet("**Problema:** la diabetes tipo 2 suele diagnosticarse tarde; un tamizaje temprano de bajo costo permite intervenir sobre factores de riesgo modificables."),
-  bullet("**Objetivo:** estimar el riesgo/estado de diabetes usando variables demograficas, antropometricas, de estilo de vida y biomarcadores disponibles en NHANES."),
-  bullet("**Impacto esperado:** priorizar poblacion para chequeos, dimensionar el problema por segmentos y ofrecer un simulador individual de riesgo."),
+  bullet("**Objetivo:** estimar el riesgo/estado de diabetes usando variables demográficas, antropométricas, de estilo de vida y biomarcadores disponibles en NHANES."),
+  bullet("**Impacto esperado:** priorizar población para chequeos, dimensionar el problema por segmentos y ofrecer un simulador individual de riesgo."),
 
   // 3. Arquitectura
-  h1("3. Arquitectura tecnica"),
-  p("El proyecto usa Kedro como framework de orquestacion: catalogo de datos declarativo (las rutas viven en catalog.yml, no en el codigo) y el flujo dividido en pipelines independientes y reproducibles."),
-  table(["Capa", "Componente", "Tecnologia"], [
-    ["Ingesta", "8 archivos XPT + umbrales + auditoria", "Kedro, pandas, pyreadstat"],
-    ["Limpieza/Features", "merge SEQN, imputacion, target, encoding", "pandas, numpy"],
-    ["Modelado", "6 clasificadores + calibracion", "scikit-learn, xgboost, lightgbm, catboost"],
+  h1("3. Arquitectura técnica"),
+  p("El proyecto usa Kedro como framework de orquestación: catálogo de datos declarativo (las rutas viven en catalog.yml, no en el código) y el flujo dividido en pipelines independientes y reproducibles."),
+  table(["Capa", "Componente", "Tecnología"], [
+    ["Ingesta", "8 archivos XPT + umbrales + auditoría", "Kedro, pandas, pyreadstat"],
+    ["Limpieza/Features", "merge SEQN, imputación, target, encoding", "pandas, numpy"],
+    ["Modelado", "6 clasificadores + calibración", "scikit-learn, xgboost, lightgbm, catboost"],
     ["Servicio", "API REST + dashboard", "FastAPI, Next.js"],
     ["Infraestructura", "containers + despliegue", "Docker Compose, AWS EC2, GitHub Actions"],
   ], [1900, 4260, 3200]),
@@ -118,31 +118,31 @@ const body = [
 
   // 4. ETL
   h1("4. Pipeline ETL y fuentes de datos"),
-  p("Integra tres tipos de fuentes, cumpliendo el requisito de multi-fuente:"),
+  p("Integra tres tipos de fuentes, cumpliendo el requisito de integración de múltiples fuentes:"),
   bullet("**NHANES XPT (SAS transport):** DEMO, DIQ, BMX, GHB, GLU, PAQ, SLQ, BPXO del ciclo 2021-2023."),
-  bullet("**Archivo propio de umbrales (CSV):** criterios clinicos parametrizados (A1C, glucosa, IMC, edad)."),
-  bullet("**Base SQLite de auditoria:** tablas ingestion_audit y etl_audit que registran filas, columnas y nulos antes/despues por corrida."),
-  p("Robustez: la union se hace por la llave SEQN con validacion que aborta si hay SEQN duplicado; validate_required_columns lanza error si falta una columna obligatoria; los codigos especiales NHANES (7, 9, 77, 99) se convierten a nulo antes de imputar."),
+  bullet("**Archivo propio de umbrales (CSV):** criterios clínicos parametrizados (A1C, glucosa, IMC, edad)."),
+  bullet("**Base SQLite de auditoría:** tablas ingestion_audit y etl_audit que registran filas, columnas y nulos antes/después por corrida."),
+  p("Robustez: la unión se hace por la llave SEQN con validación que aborta si hay SEQN duplicado; validate_required_columns lanza error si falta una columna obligatoria; los códigos especiales NHANES (7, 9, 77, 99) se convierten a nulo antes de imputar."),
 
   // 5. Transformaciones avanzadas
-  h1("5. Transformaciones avanzadas y optimizacion"),
-  p("Se aplican tecnicas optimizadas para gran escala (modulo utils/transforms.py), con impacto medido sobre el dataset real:"),
-  table(["Tecnica", "Metodo", "Resultado"], [
-    ["Optimizacion memoria", "downcast dtypes + category", "2,74 MB -> 0,76 MB (-72 %)"],
-    ["Broadcasting", "z-score vectorizado NumPy", "estandarizacion sin bucles"],
+  h1("5. Transformaciones avanzadas y optimización"),
+  p("Se aplican técnicas optimizadas para gran escala (módulo utils/transforms.py), con impacto medido sobre el dataset real:"),
+  table(["Técnica", "Método", "Resultado"], [
+    ["Optimización memoria", "downcast dtypes + category", "2,74 MB -> 0,76 MB (-72 %)"],
+    ["Broadcasting", "z-score vectorizado NumPy", "estandarización sin bucles"],
     ["Pivot", "pivot_table agregado", "prevalencia por segmento"],
     ["Reshape", "melt wide->long", "8149x44 -> 16298x3"],
     ["Chunking", "lectura por bloques", "memoria O(grupos)"],
   ], [2400, 3560, 3400]),
 
   // 6. Limpieza y target
-  h1("6. Limpieza y construccion del target"),
-  p("La variable diabetes_target se construye ANTES de imputar sus fuentes para no inventar positivos: vale 1 si DIQ010 = 1 (diagnostico reportado), o LBXGH >= 6,5 (A1C), o LBXGLU >= 126 (glucosa en ayunas); 0 en caso contrario. Las filas sin ninguna fuente determinable se descartan en lugar de asumir un 0."),
-  p("Decision clave (revision de calidad): se detecto y corrigio una fuga de datos excluyendo los biomarcadores que definen el target (LBXGH, LBXGLU y derivados) del conjunto de features, evitando metricas infladas artificialmente."),
+  h1("6. Limpieza y construcción del target"),
+  p("La variable diabetes_target se construye ANTES de imputar sus fuentes para no inventar positivos: vale 1 si DIQ010 = 1 (diagnóstico reportado), o LBXGH >= 6,5 (A1C), o LBXGLU >= 126 (glucosa en ayunas); 0 en caso contrario. Las filas sin ninguna fuente determinable se descartan en lugar de asumir un 0."),
+  p("Decisión clave (revisión de calidad): se detectó y corrigió una fuga de datos excluyendo los biomarcadores que definen el target (LBXGH, LBXGLU y derivados) del conjunto de features, evitando métricas infladas artificialmente."),
 
   // 7. Modelos
   h1("7. Portafolio de modelos ML"),
-  p("Se entrenaron y compararon seis clasificadores dentro de un Pipeline ajustado solo con train (sin fuga), con class_weight balanceado y seleccion por PR-AUC, metrica honesta ante clases desbalanceadas (prevalencia 16 %)."),
+  p("Se entrenaron y compararon seis clasificadores dentro de un Pipeline ajustado solo con train (sin fuga), con class_weight balanceado y selección por PR-AUC, métrica honesta ante clases desbalanceadas (prevalencia 16 %)."),
   table(["Modelo", "Accuracy", "Recall", "F1", "ROC-AUC", "PR-AUC"], [
     ["Logistic Regression *", "0,723", "0,747", "0,463", "0,816", "0,441"],
     ["Random Forest", "0,765", "0,678", "0,480", "0,811", "0,403"],
@@ -151,52 +151,59 @@ const body = [
     ["LightGBM", "0,758", "0,590", "0,438", "0,797", "0,395"],
     ["CatBoost", "0,748", "0,655", "0,454", "0,807", "0,421"],
   ], [2760, 1320, 1320, 1320, 1320, 1320]),
-  caption("* Modelo seleccionado (mayor PR-AUC). Calibrado con isotonic regression, umbral optimo 0,31, Brier 0,11."),
-  p("Interpretacion: la regresion logistica gana en PR-AUC y recall, detectando ~75 % de los casos positivos; el resto de modelos ofrece mayor accuracy pero menor recall, poco util cuando el costo de no detectar un caso es alto."),
+  caption("* Modelo seleccionado (mayor PR-AUC). Calibrado con isotonic regression, umbral óptimo 0,31, Brier 0,11."),
+  p("Interpretación: la regresión logística gana en PR-AUC y recall, detectando ~75 % de los casos positivos; el resto de modelos ofrece mayor accuracy pero menor recall, poco útil cuando el costo de no detectar un caso es alto."),
   img("data/08_reporting/confusion_matrix.png", 260, 230),
-  caption("Figura 1. Matriz de confusion (umbral 0,31): TN=1109, FP=260, FN=99, TP=162."),
+  caption("Figura 1. Matriz de confusión (umbral 0,31): TN=1109, FP=260, FN=99, TP=162."),
   img("data/08_reporting/feature_importance.png", 380, 300),
   caption("Figura 2. Importancia de variables del modelo."),
 
   // 8. API y dashboard
   h1("8. API REST y dashboard"),
-  p("La API FastAPI expone salud, metadatos, metricas y prediccion (individual y por lote), documentada automaticamente en /docs. Si el modelo no existe responde 503 en lugar de caerse."),
-  table(["Endpoint", "Metodo", "Descripcion"], [
+  p("La API FastAPI expone salud, metadatos, métricas y predicción (individual y por lote), documentada automáticamente en /docs. Si el modelo no existe responde 503 en lugar de caerse."),
+  table(["Endpoint", "Método", "Descripción"], [
     ["/health", "GET", "estado del servicio y del modelo"],
-    ["/model-info", "GET", "nombre y version del modelo"],
-    ["/metrics", "GET", "metricas del modelo entrenado"],
-    ["/predict", "POST", "prediccion de riesgo individual"],
-    ["/predict/batch", "POST", "prediccion por lote"],
+    ["/model-info", "GET", "nombre y versión del modelo"],
+    ["/metrics", "GET", "métricas del modelo entrenado"],
+    ["/predict", "POST", "predicción de riesgo individual"],
+    ["/predict/batch", "POST", "predicción por lote"],
   ], [3000, 1560, 4800]),
   p(""),
-  p("El dashboard (Next.js) ofrece tres vistas por audiencia: Ejecutiva (KPIs y distribuciones), Tecnica (metricas, matriz de confusion, importancia) y Operativa (filtros, descarga CSV y simulador de prediccion)."),
+  p("El dashboard (Next.js) ofrece tres vistas por audiencia: Ejecutiva (KPIs y distribuciones), Técnica (métricas, matriz de confusión, importancia) y Operativa (filtros, descarga CSV y simulador de predicción)."),
 
-  // 9. Containerizacion, CI/CD y AWS
-  h1("9. Containerizacion, CI/CD y despliegue"),
-  bullet("**Docker:** cuatro servicios (kedro-etl, api, dashboard, db) orquestados con docker-compose; depends_on para el orden, volumen data/ compartido e imagenes python:3.11-slim optimizadas por capas."),
+  // 9. Contenerización, CI/CD y AWS
+  h1("9. Contenerización, CI/CD y despliegue"),
+  bullet("**Docker:** cuatro servicios (kedro-etl, api, dashboard, db) orquestados con docker-compose; depends_on para el orden, volumen data/ compartido e imágenes python:3.11-slim optimizadas por capas."),
   bullet("**CI/CD:** workflow de GitHub Actions (.github/workflows/ci.yml) que corre lint, tests (pytest), build del frontend y build de la imagen Docker en cada push/PR a develop y main."),
   bullet("**AWS:** despliegue en EC2 + docker-compose documentado en docs/guia_despliegue_aws.md, con scripts de bootstrap (user_data.sh) y deploy (deploy.sh) para AWS Academy Learner Lab."),
 
   // 10. KPIs
-  h1("10. KPIs y analisis de resultados"),
+  h1("10. KPIs y análisis de resultados"),
   table(["KPI", "Valor"], [
     ["Participantes analizados", "8.149"],
     ["Prevalencia de diabetes (target)", "16,0 %"],
     ["Recall del modelo (casos detectados)", "~75 %"],
     ["ROC-AUC / PR-AUC", "0,81 / 0,44"],
-    ["Reduccion de memoria (ETL)", "-72 %"],
+    ["Reducción de memoria (ETL)", "-72 %"],
     ["Modelos comparados", "6"],
   ], [6000, 3360]),
 
   // 11. Colaboracion
-  h1("11. Colaboracion y gestion de proyecto"),
-  p("Estrategia Git Flow simplificada: main estable, develop de integracion y una rama feature por responsabilidad. Ninguna rama feature se integro directo a main; todo paso por Pull Request a develop con revision. Se registraron 8 Pull Requests y un revert (PR #4) que evidencia que el control de calidad detecto y corrigio un merge incorrecto."),
-  p("La colaboracion se apoyo en un contrato de interfaz (docs/CONTRATO_FEATURE_B.md) que fijo las columnas del dataset entre ramas, permitiendo desarrollar modelado, API y dashboard en paralelo."),
+  h1("11. Colaboración y gestión de proyecto"),
+  p("El equipo se organizó en tres ramas de responsabilidad (feature/a, feature/b, feature/c), cada una con un integrante a cargo:"),
+  table(["Integrante", "Rama", "Responsabilidad"], [
+    ["Manuel Díaz", "feature/a", "Arquitectura Kedro, catálogo de datos e ingesta de las fuentes NHANES."],
+    ["Guillermo Cerda", "feature/b", "Limpieza, unión por SEQN, construcción del target y features derivadas."],
+    ["Claudio Aro", "feature/c", "Modelado final, calibración, API REST, dashboard, Docker y despliegue en AWS."],
+  ], [2200, 1500, 5660]),
+  p(""),
+  p("Estrategia Git Flow simplificada: main estable, develop de integración y una rama feature por responsabilidad. Ninguna rama feature se integró directo a main; todo pasó por Pull Request a develop con revisión. Se registraron 8 Pull Requests y un revert (PR #4) que evidencia que el control de calidad detectó y corrigió un merge incorrecto."),
+  p("La colaboración se apoyó en un contrato de interfaz (docs/CONTRATO_FEATURE_B.md) que fijó las columnas del dataset entre ramas, permitiendo desarrollar modelado, API y dashboard en paralelo."),
 
   // 12. Limitaciones
   h1("12. Limitaciones y mejoras futuras"),
-  bullet("El target es una etiqueta educativa (criterios ADA), no un diagnostico clinico; algunas variables son autoinformadas."),
-  bullet("NHANES es una encuesta poblacional transversal, no una historia clinica longitudinal."),
+  bullet("El target es una etiqueta educativa (criterios ADA), no un diagnóstico clínico; algunas variables son autoinformadas."),
+  bullet("NHANES es una encuesta poblacional transversal, no una historia clínica longitudinal."),
   bullet("Mejoras: CI que bloquee merges con tests en rojo, build multi-stage, monitoreo de data drift y reentrenamiento programado."),
 
   // Anexos
@@ -214,8 +221,8 @@ const doc = new Document({
   styles, numbering,
   sections: [{
     properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "DiabetesNHANES - Informe Tecnico Ejecutivo", size: 16, color: GRIS })] })] }) },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Pagina ", size: 16, color: GRIS }), new TextRun({ children: [PageNumber.CURRENT], size: 16, color: GRIS })] })] }) },
+    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "DiabetesNHANES - Informe Técnico Ejecutivo", size: 16, color: GRIS })] })] }) },
+    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Página ", size: 16, color: GRIS }), new TextRun({ children: [PageNumber.CURRENT], size: 16, color: GRIS })] })] }) },
     children: [...cover, ...toc, ...body],
   }],
 });
